@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Define a consistent dark theme */
+  --color-background-start: #0f172a; /* neutral-950 */
+  --color-background-end:   #1e293b; /* neutral-900 */
+  --color-text:             #e2e8f0; /* light text */
+  --color-accent:           #94a3b8; /* accent color for headings etc. */
+}
+
+body {
+  @apply antialiased;
+  background-image: linear-gradient(to bottom, var(--color-background-start), var(--color-background-end));
+  color: var(--color-text);
+}
+
+/* Optional: Ensure links and other elements use the theme colors consistently */
+a {
+  color: var(--color-accent);
+  transition: color 0.3s ease;
+}
+a:hover {
+  color: var(--color-text);
+}
+
+/* You can add more global styling below to enforce consistency */ 

@@ -7,7 +7,6 @@ import {
   IconMail,
   IconCode,
   IconBriefcase,
-  IconBrandLinkedin,
   IconHome,
   IconTools,
 } from "@tabler/icons-react";

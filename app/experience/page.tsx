@@ -1,6 +1,5 @@
 "use client";
 import { Header } from "@/components/header";
-import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { CardSpotlight } from "@/components/ui/card-spotlight";
 import { IconBriefcase, IconCalendar, IconMapPin } from "@tabler/icons-react";

@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { formatDistanceToNow } from "date-fns";
-import { IconMail, IconCheck, IconRefresh, IconTrash, IconMailOpened, IconUser, IconPhone, IconMapPin } from "@tabler/icons-react";
+import { IconMail, IconCheck, IconRefresh, IconTrash, IconMailOpened, IconPhone, IconMapPin } from "@tabler/icons-react";
 import { Id } from "@/convex/_generated/dataModel";
 
 export default function ContactsPage() {
@@ -71,10 +70,8 @@ export default function ContactsPage() {
       ) : (
         <div className="space-y-4">
           {contacts.map((contact) => (
-            <motion.div
+            <div
               key={contact._id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
               className="bg-white dark:bg-neutral-900/30 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden"
             >
               <div 
@@ -160,7 +157,7 @@ export default function ContactsPage() {
                   </div>
                 </div>
               )}
-            </motion.div>
+            </div>
           ))}
         </div>
       )}

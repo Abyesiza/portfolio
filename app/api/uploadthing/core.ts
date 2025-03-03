@@ -3,7 +3,7 @@ import { createUploadthing, type FileRouter } from "uploadthing/next";
 const f = createUploadthing();
 
 // Modified auth check function to be more permissive in development
-const isAuthenticated = async (req: Request) => {
+const isAuthenticated = async (request: Request) => {
   try {
     // For development, we'll allow uploads without strict auth checks
     // In production, you should implement proper authentication here
@@ -24,7 +24,7 @@ export const ourFileRouter = {
       if (!isAuthed) throw new Error("Unauthorized");
       return { isAuthed };
     })
-    .onUploadComplete(async ({ metadata, file }) => {
+    .onUploadComplete(async ({ file }) => {
       console.log("Project image upload complete");
       return { uploadedBy: "admin" };
     }),
@@ -35,7 +35,7 @@ export const ourFileRouter = {
       if (!isAuthed) throw new Error("Unauthorized");
       return { isAuthed };
     })
-    .onUploadComplete(async ({ metadata, file }) => {
+    .onUploadComplete(async ({ file }) => {
       console.log("Experience logo upload complete");
       return { uploadedBy: "admin" };
     }),
@@ -46,7 +46,7 @@ export const ourFileRouter = {
       if (!isAuthed) throw new Error("Unauthorized");
       return { isAuthed };
     })
-    .onUploadComplete(async ({ metadata, file }) => {
+    .onUploadComplete(async ({ file }) => {
       console.log("Skill icon upload complete");
       return { uploadedBy: "admin" };
     }),
@@ -57,7 +57,7 @@ export const ourFileRouter = {
       if (!isAuthed) throw new Error("Unauthorized");
       return { isAuthed };
     })
-    .onUploadComplete(async ({ metadata, file }) => {
+    .onUploadComplete(async ({ file }) => {
       console.log("Vault image upload complete");
       return { uploadedBy: "admin" };
     }),
@@ -68,7 +68,7 @@ export const ourFileRouter = {
       if (!isAuthed) throw new Error("Unauthorized");
       return { isAuthed };
     })
-    .onUploadComplete(async ({ metadata, file }) => {
+    .onUploadComplete(async ({ file }) => {
       console.log("Upload complete for about image:", file);
       return { uploadedBy: "About Page" };
     }),

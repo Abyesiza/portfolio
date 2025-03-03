@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { OurFileRouter, OurEndpoints } from "@/app/api/uploadthing/core";
 import { formatDistanceToNow } from "date-fns";
 import { 
   IconLock, 
@@ -25,6 +24,34 @@ import {
 import { Id } from "@/convex/_generated/dataModel";
 import Image from "next/image";
 import { UploadButton } from "@/lib/uploadthing";
+
+// Define type for Vault Item from database
+interface VaultItem {
+  _id: Id<"vault">;
+  _creationTime: number;
+  title: string;
+  username?: string;
+  password?: string;
+  url?: string;
+  notes?: string;
+  isPinned: boolean;
+  tags: string[];
+  icon: string;
+  imageUrl?: string;
+  userId: string;
+}
+
+// Form data interface for adding/editing items
+interface VaultFormData {
+  title: string;
+  type: string;
+  content: string;
+  imageUrl: string;
+  category: string;
+  tags: string[];
+  isPinned: boolean;
+  isEncrypted: boolean;
+}
 
 // Simple wrapper component to handle UploadThing type issues
 function VaultImageUploader({ onComplete }: { onComplete: (url: string) => void }) {
@@ -79,7 +106,7 @@ export default function VaultPage() {
   const [activeTab, setActiveTab] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
-  const [editingItem, setEditingItem] = useState<any>(null);
+  const [editingItem, setEditingItem] = useState<VaultItem | null>(null);
   const [isPasswordVisible, setIsPasswordVisible] = useState<Record<string, boolean>>({});
   
   const vaultItems = useQuery(api.vault.list);
@@ -88,13 +115,13 @@ export default function VaultPage() {
   const togglePinItem = useMutation(api.vault.togglePin);
   const removeVaultItem = useMutation(api.vault.remove);
   
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<VaultFormData>({
     title: "",
     type: "note",
     content: "",
     imageUrl: "",
     category: "General",
-    tags: [] as string[],
+    tags: [],
     isPinned: false,
     isEncrypted: false,
   });
@@ -123,47 +150,43 @@ export default function VaultPage() {
   
   const handleAddItem = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     
     try {
+      const vaultData = {
+        title: formData.title,
+        type: formData.type || "note",
+        content: formData.content || "",
+        imageUrl: formData.imageUrl,
+        category: formData.category || "General",
+        tags: formData.tags,
+        isPinned: formData.isPinned,
+        isEncrypted: formData.isEncrypted,
+      };
+      
       if (editingItem) {
+        // Update existing item
         await updateVaultItem({
           id: editingItem._id,
-          title: formData.title,
-          content: formData.content,
-          category: formData.category,
-          tags: formData.tags,
-          imageUrl: formData.imageUrl,
-          isEncrypted: formData.isEncrypted,
+          ...vaultData,
         });
       } else {
-        await createVaultItem({
-          title: formData.title,
-          type: formData.type,
-          content: formData.content,
-          imageUrl: formData.type === "image" ? formData.imageUrl : undefined,
-          category: formData.category,
-          tags: formData.tags,
-          isPinned: formData.isPinned,
-          isEncrypted: formData.isEncrypted,
-        });
+        // Create new item
+        await createVaultItem(vaultData);
       }
       
-      resetForm();
       setShowAddModal(false);
+      resetForm();
     } catch (error) {
       console.error("Error saving vault item:", error);
-    } finally {
-      setIsSubmitting(false);
     }
   };
   
   const handleEditItem = (item: any) => {
     setEditingItem(item);
     setFormData({
-      title: item.title,
-      type: item.type,
-      content: item.content,
+      title: item.title || "",
+      type: item.type || "note",
+      content: item.content || "",
       imageUrl: item.imageUrl || "",
       category: item.category || "General",
       tags: item.tags || [],

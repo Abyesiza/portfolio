@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { formatDistanceToNow } from "date-fns";
-import { IconMail, IconCheck, IconX, IconRefresh, IconTrash, IconMailOpened } from "@tabler/icons-react";
+import { IconMail, IconCheck, IconRefresh, IconTrash, IconMailOpened, IconUser, IconPhone, IconMapPin } from "@tabler/icons-react";
 import { Id } from "@/convex/_generated/dataModel";
 
 export default function ContactsPage() {

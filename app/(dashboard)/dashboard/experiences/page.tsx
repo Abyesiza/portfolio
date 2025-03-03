@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { UploadButton } from "@/lib/uploadthing";
-import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { IconPlus, IconX, IconBriefcase, IconMapPin, IconCalendar } from "@tabler/icons-react";
 import Image from "next/image";
+import { formatDistanceToNow } from "date-fns";
+import { Id } from "@/convex/_generated/dataModel";
 
 export default function ExperiencesPage() {
   const [isAddingExperience, setIsAddingExperience] = useState(false);
@@ -39,7 +40,7 @@ export default function ExperiencesPage() {
     try {
       // Convert dates to timestamps
       const startTimestamp = new Date(formData.startDate).getTime();
-      let endTimestamp = formData.current ? undefined : formData.endDate ? new Date(formData.endDate).getTime() : undefined;
+      const endTimestamp = formData.current ? undefined : formData.endDate ? new Date(formData.endDate).getTime() : undefined;
 
       await createExperience({
         title: formData.title,
@@ -80,7 +81,7 @@ export default function ExperiencesPage() {
   const handleDelete = async (id: string) => {
     if (window.confirm("Are you sure you want to delete this experience?")) {
       try {
-        await removeExperience({ id: id as any });
+        await removeExperience({ id: id as Id<"experiences"> });
       } catch (error) {
         console.error("Failed to delete experience:", error);
         alert("Failed to delete experience. Please try again.");
@@ -413,7 +414,7 @@ export default function ExperiencesPage() {
             <IconBriefcase className="h-12 w-12 mx-auto mb-3 opacity-20" />
             <h3 className="text-lg font-medium mb-2">No experiences yet</h3>
             <p className="text-sm">
-              Click the "Add Experience" button to add your work experience.
+              Click the &ldquo;Add Experience&rdquo; button to add your work experience.
             </p>
           </div>
         )}

@@ -90,8 +90,8 @@ export default function ContactPage() {
                   <IconCheck className="h-8 w-8 text-green-600 dark:text-green-400" />
                 </div>
                 <h3 className="text-xl font-medium mb-2">Message Sent!</h3>
-                <p className="text-neutral-600 dark:text-neutral-400 max-w-md">
-                  Thank you for reaching out. I'll get back to you as soon as possible.
+                <p className="text-center mt-4 font-light text-sm text-neutral-500 dark:text-neutral-400">
+                  I&apos;ll get back to you as soon as possible.
                 </p>
               </div>
             ) : (
@@ -132,12 +132,11 @@ export default function ContactPage() {
                   </label>
                   <textarea
                     id="message"
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-neutral-100 dark:bg-neutral-800/50 border border-neutral-300 dark:border-neutral-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-neutral-800 dark:text-neutral-200 min-h-[100px] resize-y"
-                    placeholder="Your message..."
+                    name="message"
+                    rows={6}
+                    className="w-full px-4 py-3 text-base bg-transparent border border-neutral-300 dark:border-neutral-700 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all placeholder:text-neutral-400"
+                    placeholder="What&apos;s on your mind?"
                     required
-                    disabled={isSubmitting}
                   />
                 </div>
                 

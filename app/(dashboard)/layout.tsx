@@ -5,8 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { 
   IconDashboard,
-  IconFiles,
-  IconUpload,
   IconLogout,
   IconMenu2,
   IconX,

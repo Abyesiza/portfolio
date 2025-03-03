@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, FormEvent } from 'react';
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { IconEye, IconEyeOff, IconLock } from '@tabler/icons-react';
 import { useSearchParams } from 'next/navigation';
 
@@ -12,6 +13,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const searchParams = useSearchParams();
+  const router = useRouter();
   
   const redirectTo = searchParams.get('redirectTo') || '/dashboard';
 
@@ -52,7 +54,7 @@ export default function LoginPage() {
       
       // Add a small delay to ensure cookies are set
       setTimeout(() => {
-        window.location.href = redirectTo;
+        router.push(redirectTo);
       }, 500);
     } catch (err) {
       console.error('=== LOGIN ERROR ===');
@@ -162,6 +164,10 @@ export default function LoginPage() {
             </button>
           </div>
         </div>
+
+        <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-4">
+          Don&apos;t have an account? Contact the administrator.
+        </p>
       </div>
     </div>
   );

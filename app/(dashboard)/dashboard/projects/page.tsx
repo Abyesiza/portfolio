@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { UploadButton } from "@/lib/uploadthing";
-import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { IconPlus, IconX } from "@tabler/icons-react";

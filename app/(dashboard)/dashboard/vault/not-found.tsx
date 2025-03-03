@@ -10,9 +10,9 @@ export default function VaultNotFound() {
         <div className="h-20 w-20 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
           <IconLock className="h-10 w-10 text-red-600 dark:text-red-400" />
         </div>
-        <h1 className="text-2xl font-bold mb-2">Vault Item Not Found</h1>
-        <p className="text-gray-600 dark:text-gray-400 mb-6">
-          The vault item you're looking for doesn't exist, has been moved, or you don't have permission to access it.
+        <h1 className="text-2xl font-bold mb-2">Item Not Found</h1>
+        <p className="text-neutral-600 dark:text-neutral-400 mb-6">
+          We couldn&apos;t find the vault item you&apos;re looking for. It may have been deleted or it doesn&apos;t exist.
         </p>
         <Link 
           href="/dashboard/vault" 

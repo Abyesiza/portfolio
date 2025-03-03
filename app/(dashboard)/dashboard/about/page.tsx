@@ -7,17 +7,13 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { UploadButton } from "@/lib/uploadthing";
 import Image from "next/image";
-import { 
-  IconUser, 
-  IconEdit, 
-  IconBrandGithub, 
-  IconBrandLinkedin, 
+import {
+  IconUser,
+  IconBrandGithub,
+  IconBrandLinkedin,
   IconBrandTwitter,
   IconPlus,
-  IconX,
-  IconCheck,
   IconDeviceFloppy,
-  IconPhotoPlus,
   IconTrash
 } from "@tabler/icons-react";
 

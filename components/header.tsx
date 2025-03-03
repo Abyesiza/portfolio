@@ -17,6 +17,7 @@ export function Header() {
   const [isMobile, setIsMobile] = useState(false);
   const [isTabBarVisible, setIsTabBarVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Navigation items
   const navItems = [
@@ -104,9 +105,9 @@ export function Header() {
   };
 
   // Handle tab click with haptic feedback
-  const handleTabClick = (href: string) => {
+  const handleTabClick = () => {
+    setIsMenuOpen(false);
     simulateHapticFeedback();
-    // Navigation is handled by the link component
   };
 
   return (
@@ -135,7 +136,7 @@ export function Header() {
                     key={index}
                     href={item.href}
                     className="relative flex flex-col items-center justify-center w-14 h-full"
-                    onClick={() => handleTabClick(item.href)}
+                    onClick={() => handleTabClick()}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     transition={{ type: "spring", stiffness: 400, damping: 17 }}

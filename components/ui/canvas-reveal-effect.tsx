@@ -1,8 +1,10 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useEffect, useState } from "react";
 import * as THREE from "three";
+import { shaderMaterial } from "@react-three/drei";
+import { extend } from "@react-three/fiber";
 
 export const CanvasRevealEffect = ({
   animationSpeed = 0.4,
@@ -11,6 +13,7 @@ export const CanvasRevealEffect = ({
   containerClassName,
   dotSize,
   showGradient = true,
+  revealSize = 350,
 }: {
   /**
    * 0.1 - slower
@@ -22,9 +25,86 @@ export const CanvasRevealEffect = ({
   containerClassName?: string;
   dotSize?: number;
   showGradient?: boolean;
+  revealSize?: number;
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+  const [radius, setRadius] = useState(revealSize);
+  const [time, setTime] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        setWidth(rect.width);
+        setHeight(rect.height);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    setMouse({
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    });
+  };
+
+  const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (event.touches.length > 0) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      setMouse({
+        x: event.touches[0].clientX - rect.left,
+        y: event.touches[0].clientY - rect.top,
+      });
+    }
+  };
+
+  // Update time for animations
+  useEffect(() => {
+    let frameId: number;
+    const animate = () => {
+      setTime((prevTime) => prevTime + 0.01);
+      frameId = requestAnimationFrame(animate);
+    };
+    
+    frameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frameId);
+  }, []);
+
+  // Define getUniforms function
+  const getUniforms = (
+    width: number,
+    height: number,
+    radius: number,
+    mouse: { x: number; y: number },
+    time: number
+  ): Record<string, number | number[]> => {
+    return {
+      u_time: time,
+      u_resolution: [width, height],
+      u_mouse: [mouse.x, mouse.y],
+      u_radius: radius,
+    };
+  };
+
+  const uniforms = useMemo(() => {
+    return getUniforms(width, height, radius, mouse, time);
+  }, [width, height, radius, mouse, time]);
+
   return (
-    <div className={cn("h-full relative bg-white w-full", containerClassName)}>
+    <div 
+      ref={containerRef}
+      className={cn("h-full relative bg-white w-full", containerClassName)}
+      onMouseMove={handleMouseMove}
+      onTouchMove={handleTouchMove}
+    >
       <div className="h-full w-full">
         <DotMatrix
           colors={colors ?? [[0, 255, 255]]}
@@ -39,6 +119,11 @@ export const CanvasRevealEffect = ({
               opacity *= clamp((1.0 - step(intro_offset + 0.1, u_time * animation_speed_factor)) * 1.25, 1.0, 1.25);
             `}
           center={["x", "y"]}
+          width={width}
+          height={height}
+          mouse={mouse}
+          radius={radius}
+          time={time}
         />
       </div>
       {showGradient && (
@@ -55,6 +140,11 @@ interface DotMatrixProps {
   dotSize?: number;
   shader?: string;
   center?: ("x" | "y")[];
+  width: number;
+  height: number;
+  mouse: { x: number, y: number };
+  radius: number;
+  time: number;
 }
 
 const DotMatrix: React.FC<DotMatrixProps> = ({
@@ -64,6 +154,11 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
   dotSize = 2,
   shader = "",
   center = ["x", "y"],
+  width,
+  height,
+  mouse,
+  radius,
+  time,
 }) => {
   const uniforms = React.useMemo(() => {
     let colorsArray = [

@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { UploadButton } from "@/lib/uploadthing";
-import { OurFileRouter } from "@/app/api/uploadthing/core";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { IconPlus, IconX, IconCode, IconDeviceFloppy, IconStarFilled } from "@tabler/icons-react";
+import { IconPlus, IconX, IconCode, IconStarFilled, IconTrash } from "@tabler/icons-react";
 import Image from "next/image";
+import { Id } from "@/convex/_generated/dataModel";
 
 const CATEGORIES = [
   "Frontend", 
@@ -70,7 +70,7 @@ export default function SkillsPage() {
   const handleDelete = async (id: string) => {
     if (window.confirm("Are you sure you want to delete this skill?")) {
       try {
-        await removeSkill({ id: id as any });
+        await removeSkill({ id: id as Id<"skills"> });
       } catch (error) {
         console.error("Failed to delete skill:", error);
         alert("Failed to delete skill. Please try again.");
@@ -308,7 +308,7 @@ export default function SkillsPage() {
                       onClick={() => handleDelete(skill._id)}
                       className="p-1 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-colors"
                     >
-                      <IconX className="h-5 w-5" />
+                      <IconTrash className="h-5 w-5" />
                     </button>
                   </div>
                   
@@ -329,7 +329,7 @@ export default function SkillsPage() {
             <IconCode className="h-12 w-12 mx-auto mb-3 opacity-20" />
             <h3 className="text-lg font-medium mb-2">No skills yet</h3>
             <p className="text-sm">
-              Click the "Add Skill" button to add your technical skills.
+              Click the &ldquo;Add Skill&rdquo; button to add your technical skills.
             </p>
           </div>
         )}

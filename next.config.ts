@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
 },
   images: {
-    domains: ['assets.aceternity.com', 'images.unsplash.com']
+    domains: ['assets.aceternity.com', 'images.unsplash.com', 'utfs.io']
   }
 };
 

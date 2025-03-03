@@ -1,24 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio Web Application
+
+A modern, responsive portfolio website built with Next.js, Tailwind CSS, and Convex for data management.
+
+## Features
+
+### Public Features
+- **Home Page**: Showcase featured projects and skills
+- **About Page**: Share your personal story and background
+- **Experience Page**: Display your work history and education
+- **Projects Page**: Showcase your portfolio projects with details
+- **Skills Page**: Display your technical skills organized by categories
+- **Contact Form**: Allow visitors to send you messages
+
+### Dashboard Features
+- **Projects Management**: Add, edit, and delete projects
+- **Experience Management**: Manage your work and education history
+- **Skills Management**: Organize and update your technical skills
+- **Contact Management**: Review and manage contact form submissions
+- **File Management**: Upload and manage files used in your portfolio
+- **Private Vault**: Securely store passwords, notes, and images (only visible to you)
+
+## Private Vault
+
+The private vault feature provides a secure space to store sensitive information that is only accessible when logged into your dashboard:
+
+- **Password Manager**: Securely store login credentials
+- **Notes**: Keep private text notes organized by categories
+- **Image Storage**: Save private images with secure access
+- **Organization Features**:
+  - Tag system for easy filtering
+  - Categories for organization
+  - Pin important items for quick access
+  - Search functionality
+  - Additional encryption option
+
+## Tech Stack
+
+- **Frontend**: Next.js 13 App Router, React, Tailwind CSS, shadcn/ui
+- **Backend**: Convex (database, authentication, file storage)
+- **Authentication**: Clerk
+- **Image Upload**: UploadThing
+- **Animations**: Framer Motion
+- **Form Handling**: React Hook Form, Zod validation
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up environment variables:
+   ```
+   NEXT_PUBLIC_CONVEX_URL=your_convex_url
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+   CLERK_SECRET_KEY=your_clerk_secret_key
+   UPLOADTHING_SECRET=your_uploadthing_secret
+   UPLOADTHING_APP_ID=your_uploadthing_app_id
+   ```
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+5. Start the Convex development server:
+   ```bash
+   npx convex dev
+   ```
+
+## Deployment
+
+This application can be deployed on Vercel or any other hosting service that supports Next.js applications.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
 

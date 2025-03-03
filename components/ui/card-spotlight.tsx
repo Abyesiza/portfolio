@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export const CardSpotlight = ({
   children,
   radius = 350,
-  color = "#262626",
+  color,
   className,
   ...props
 }: {
@@ -32,10 +32,14 @@ export const CardSpotlight = ({
   const [isHovering, setIsHovering] = useState(false);
   const handleMouseEnter = () => setIsHovering(true);
   const handleMouseLeave = () => setIsHovering(false);
+  
+  // Default colors for light and dark mode
+  const defaultColor = color || "var(--spotlight-color, rgba(0, 0, 0, 0.05))";
+  
   return (
     <div
       className={cn(
-        "group/spotlight p-10 rounded-md relative border border-neutral-800 bg-black dark:border-neutral-800",
+        "group/spotlight rounded-xl relative border border-neutral-200 bg-white/80 backdrop-blur-sm dark:border-neutral-800 dark:bg-black/80 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden",
         className
       )}
       onMouseMove={handleMouseMove}
@@ -44,9 +48,9 @@ export const CardSpotlight = ({
       {...props}
     >
       <motion.div
-        className="pointer-events-none absolute z-0 -inset-px rounded-md opacity-0 transition duration-300 group-hover/spotlight:opacity-100"
+        className="pointer-events-none absolute z-0 -inset-px rounded-xl opacity-0 transition duration-300 group-hover/spotlight:opacity-100"
         style={{
-          backgroundColor: color,
+          backgroundColor: defaultColor,
           maskImage: useMotionTemplate`
             radial-gradient(
               ${radius}px circle at ${mouseX}px ${mouseY}px,
@@ -68,7 +72,9 @@ export const CardSpotlight = ({
           />
         )}
       </motion.div>
-      {children}
+      <div className="relative z-10 h-full overflow-hidden">
+        {children}
+      </div>
     </div>
   );
 };

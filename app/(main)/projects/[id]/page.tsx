@@ -15,10 +15,11 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
-export default function ProjectDetailPage({ params }: { params: { id: string } }) {
+export default function ProjectDetailPage() {
   const router = useRouter();
+  const params = useParams();
   const projectId = params.id as Id<"projects">;
   const project = useQuery(api.projects.get, { id: projectId });
   const [isLoading, setIsLoading] = useState(true);

@@ -1,24 +1,27 @@
 import { NextResponse } from 'next/server';
 
-export async function POST() {
-  try {
-    // Create response
-    const response = NextResponse.json({ success: true });
-    
-    // Delete the auth token cookie by setting it to expire immediately
-    response.cookies.set({
-      name: 'auth_token',
-      value: '',
-      expires: new Date(0),
-      path: '/',
-    });
+export async function GET(request: Request) {
+  // Create response that redirects to home page
+  const response = NextResponse.redirect(new URL('/', request.url));
+  
+  // Clear the auth token cookie
+  response.cookies.delete('auth_token');
+  
+  return response;
+}
 
-    return response;
-  } catch (error) {
-    console.error('Logout error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
-  }
+export async function POST(request: Request) {
+  // Create JSON response
+  const response = NextResponse.json({ 
+    success: true, 
+    message: 'Logged out successfully' 
+  });
+  
+  // Clear the auth token cookie
+  response.cookies.delete('auth_token');
+  
+  // Set cache control headers
+  response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  
+  return response;
 } 

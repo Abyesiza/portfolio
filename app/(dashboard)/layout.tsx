@@ -29,10 +29,7 @@ export default function DashboardLayout({
 
   // Check if user is authenticated
   useEffect(() => {
-    const isAuth = localStorage.getItem("isAuthenticated");
-    if (!isAuth) {
-      router.push("/login");
-    }
+    // No need to check localStorage as middleware will handle authentication
   }, [router]);
 
   // Navigation items
@@ -104,6 +101,7 @@ export default function DashboardLayout({
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
       });
       
       if (!response.ok) {
@@ -112,7 +110,6 @@ export default function DashboardLayout({
       
       // Redirect to login page
       router.push('/login');
-      router.refresh();
     } catch (error) {
       console.error('Logout error:', error);
       // Fallback - redirect anyway

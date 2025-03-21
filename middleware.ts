@@ -1,57 +1,69 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { verify } from 'jsonwebtoken';
+import { verifyToken } from './lib/auth';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-fallback-secret-key-change-in-production';
+// Define auth protected routes
+const protectedRoutes = ['/dashboard', '/projects', '/blog', '/about', '/contact'];
+const authRoutes = ['/login'];
 
-// Simplified middleware that only protects the dashboard
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+export async function middleware(request: NextRequest) {
+  const path = request.nextUrl.pathname;
+  console.log('Path:', path, 'Method:', request.method);
   
-  console.log("=== MIDDLEWARE CALLED ===");
-  console.log("Checking path:", pathname);
-  console.log("Cookies present:", request.cookies.size > 0);
+  // Get auth token from cookies
+  const token = request.cookies.get('auth_token')?.value;
+  const isTokenPresent = !!token;
+  console.log('Token present:', isTokenPresent);
   
-  // Only protect the dashboard routes
-  if (pathname.startsWith('/dashboard')) {
-    console.log("Dashboard route detected");
-    
-    // Get the token from the cookies
-    const token = request.cookies.get('auth_token')?.value;
-    console.log("Auth token present:", !!token);
-    
+  // Handle protected routes
+  if (protectedRoutes.some(route => path.startsWith(route))) {
     // If no token, redirect to login
-    if (!token) {
-      console.log("No auth token, redirecting to login");
-      const redirectUrl = request.nextUrl.clone();
-      redirectUrl.pathname = '/login';
-      redirectUrl.searchParams.set('redirectTo', pathname);
-      return NextResponse.redirect(redirectUrl);
+    if (!isTokenPresent) {
+      console.log('No token, redirecting to login');
+      return NextResponse.redirect(new URL('/login', request.url));
     }
     
-    try {
-      // Very basic token verification, just check if it exists
-      // In a real app, you'd want to verify the token is valid
-      console.log("Token exists, allowing access to dashboard");
-      return NextResponse.next();
-    } catch (error) {
-      console.error('Error in middleware:', error);
-      // If token verification fails, redirect to login
-      const redirectUrl = request.nextUrl.clone();
-      redirectUrl.pathname = '/login';
-      redirectUrl.searchParams.set('redirectTo', pathname);
-      return NextResponse.redirect(redirectUrl);
+    // Verify token
+    const isTokenValid = await verifyToken(token);
+    console.log('Token verification result:', isTokenValid);
+    
+    // If token verification fails, redirect to login
+    if (!isTokenValid) {
+      console.log('Invalid token, redirecting to login');
+      const response = NextResponse.redirect(new URL('/login', request.url));
+      response.cookies.delete('auth_token');
+      return response;
     }
+    
+    console.log('Valid token, proceeding to protected route');
+    return NextResponse.next();
   }
   
-  // All other routes proceed normally
+  // Handle auth routes (login)
+  if (authRoutes.some(route => path.startsWith(route))) {
+    // If token exists and is valid, redirect to dashboard
+    if (isTokenPresent) {
+      const isTokenValid = await verifyToken(token);
+      console.log('Accessing login page with token, validity:', isTokenValid);
+      
+      if (isTokenValid) {
+        console.log('Valid token on login page, redirecting to dashboard');
+        return NextResponse.redirect(new URL('/dashboard', request.url));
+      }
+    }
+    
+    console.log('Accessing login page');
+    return NextResponse.next();
+  }
+  
+  // For all other routes, simply proceed
   return NextResponse.next();
 }
 
-// Configure the middleware to run on specific paths
+// Configure middleware to run only on specified routes
 export const config = {
   matcher: [
-    // Only run on dashboard paths
-    '/dashboard/:path*',
+    '/dashboard/:path*', // All dashboard routes
+    '/login',            // Login page
   ],
 }; 

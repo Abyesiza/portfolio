@@ -15,14 +15,16 @@ export const FloatingDock = ({
   items,
   desktopClassName,
   mobileClassName,
+  showTitles = true,
 }: {
   items: { title: string; icon: React.ReactNode; href: string }[];
   desktopClassName?: string;
   mobileClassName?: string;
+  showTitles?: boolean;
 }) => {
   return (
     <>
-      <FloatingDockDesktop items={items} className={desktopClassName} />
+      <FloatingDockDesktop items={items} className={desktopClassName} showTitles={showTitles} />
       <FloatingDockMobile items={items} className={mobileClassName} />
     </>
   );
@@ -86,9 +88,11 @@ const FloatingDockMobile = ({
 const FloatingDockDesktop = ({
   items,
   className,
+  showTitles = true,
 }: {
   items: { title: string; icon: React.ReactNode; href: string }[];
   className?: string;
+  showTitles?: boolean;
 }) => {
   let mouseX = useMotionValue(Infinity);
   return (
@@ -101,7 +105,7 @@ const FloatingDockDesktop = ({
       )}
     >
       {items.map((item) => (
-        <IconContainer mouseX={mouseX} key={item.title} {...item} />
+        <IconContainer mouseX={mouseX} key={item.title} {...item} showTitle={showTitles} />
       ))}
     </motion.div>
   );
@@ -112,11 +116,13 @@ function IconContainer({
   title,
   icon,
   href,
+  showTitle = true,
 }: {
   mouseX: MotionValue;
   title: string;
   icon: React.ReactNode;
   href: string;
+  showTitle?: boolean;
 }) {
   let ref = useRef<HTMLDivElement>(null);
 
@@ -170,7 +176,7 @@ function IconContainer({
         className="aspect-square rounded-full bg-gray-200 dark:bg-neutral-800 flex items-center justify-center relative"
       >
         <AnimatePresence>
-          {hovered && (
+          {hovered && showTitle && (
             <motion.div
               initial={{ opacity: 0, y: 10, x: "-50%" }}
               animate={{ opacity: 1, y: 0, x: "-50%" }}

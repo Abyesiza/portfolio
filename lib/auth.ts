@@ -4,8 +4,9 @@ import * as jose from 'jose';
 export const ADMIN_EMAIL = 'abyesizajoel@gmail.com';
 export const ADMIN_PASSWORD = 'A1BiPerfect@';
 
-// Use a simple string secret for JWT
-const JWT_SECRET = new TextEncoder().encode('abyesiza-portfolio-dashboard-secret-key');
+// Use environment variable for JWT_SECRET with fallback for development
+const secretKey = process.env.JWT_SECRET || 'abyesiza-portfolio-dashboard-secret-key';
+export const JWT_SECRET = new TextEncoder().encode(secretKey);
 
 export interface UserData {
   email: string;

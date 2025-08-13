@@ -47,8 +47,8 @@ export default function ExperiencePage() {
     <PageContainer horizontalScroll="Work Experience">
       {experiences.map((experience) => (
         <div key={experience._id} className="card-container flex-shrink-0 w-[300px] sm:w-[350px] md:w-[400px]">
-          <CardSpotlight className="h-[350px] w-full">
-            <div className="h-full flex flex-col p-6">
+          <CardSpotlight className="min-h-[350px] w-full">
+            <div className="flex flex-col p-6">
               <div>
                 <div className="flex items-center gap-4 mb-4">
                   <div className="relative w-12 h-12 rounded-md overflow-hidden bg-neutral-100 dark:bg-neutral-800 flex-shrink-0">

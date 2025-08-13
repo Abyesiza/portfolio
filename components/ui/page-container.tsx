@@ -169,7 +169,7 @@ export function PageContainer({
                   className="w-full h-full overflow-x-auto custom-scrollbar hide-scrollbar touch-scroll px-4 sm:px-8 lg:px-16 mb-4"
                   onWheel={handleWheel}
                 >
-                  <div className="flex gap-6 md:gap-8 lg:gap-10 py-4 min-w-max">
+                  <div className="flex gap-6 md:gap-8 lg:gap-10 py-4 min-w-max items-start">
                     {children}
                   </div>
                 </div>

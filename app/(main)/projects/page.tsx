@@ -45,10 +45,10 @@ export default function ProjectsPage() {
         projects.map((project) => (
           <div key={project._id} className="card-container flex-shrink-0 w-[300px] sm:w-[350px] md:w-[400px]">
             <CardSpotlight 
-              className="h-[350px] w-full overflow-hidden cursor-pointer"
+              className="min-h-[350px] w-full overflow-hidden cursor-pointer"
               onClick={() => handleProjectClick(project._id)}
             >
-              <div className="h-full flex flex-col p-6">
+              <div className="flex flex-col p-6">
                 {project.imageUrl && (
                   <div className="relative w-full h-32 mb-4 rounded-lg overflow-hidden">
                     <Image

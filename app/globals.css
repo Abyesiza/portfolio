@@ -201,7 +201,12 @@ html {
   }
 
   .card-standard {
-    @apply w-[300px] sm:w-[350px] md:w-[400px] h-[350px] p-6 flex flex-col;
+    @apply w-[300px] sm:w-[350px] md:w-[400px] min-h-[350px] p-6 flex flex-col;
+  }
+  
+  /* Ensure cards maintain consistent alignment even with varying heights */
+  .card-flex-container {
+    @apply flex items-stretch;
   }
   
   .tag {

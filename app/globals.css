@@ -181,6 +181,21 @@ html {
     @apply text-neutral-600 dark:text-neutral-400 text-sm;
   }
 
+  /* Standardized page container spacing */
+  .page-content {
+    @apply w-full max-w-5xl mx-auto px-4 pt-8 pb-16;
+  }
+  
+  /* Consistent spacing for sections */
+  .section-spacing {
+    @apply mb-8;
+  }
+  
+  /* Consistent gap for flex layouts */
+  .content-gap {
+    @apply gap-6 md:gap-8 lg:gap-12;
+  }
+
   .card-container {
     @apply flex-shrink-0 first:ml-0 transition-transform duration-300 hover:translate-y-[-4px];
   }

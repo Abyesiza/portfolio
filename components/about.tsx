@@ -61,8 +61,8 @@ export function AboutComponent() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-20 max-w-5xl">
-      <div className="flex flex-col md:flex-row items-center gap-12">
+    <div className="page-content">
+      <div className="flex flex-col md:flex-row items-center content-gap">
         {/* Image Column */}
         <motion.div 
           className="w-full md:w-5/12"
@@ -140,12 +140,13 @@ export function AboutComponent() {
             {bioContent.resumeUrl && (
               <motion.a 
                 href={bioContent.resumeUrl} 
+                download="Joel_Abyesiza_Resume.pdf"
                 className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <IconDownload size={18} />
-                Resume
+                Download Resume
               </motion.a>
             )}
             

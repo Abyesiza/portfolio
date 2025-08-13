@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio Dashboard",
-  description: "Portfolio Dashboard for File Management",
+  title: "Abyesiza Muwanguzi Joel",
+  description: "Portfolio for Abyesiza Muwanguzi Joel",
 };
 
 export default function RootLayout({

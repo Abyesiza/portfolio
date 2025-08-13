@@ -39,7 +39,7 @@ export default function SkillsPage() {
   if (!skills || !categories) {
     return (
       <PageContainer>
-        <div className="max-w-6xl w-full mx-auto px-4 py-12">
+        <div className="page-content">
           <div className="flex justify-center items-center h-64">
             <IconLoader className="w-8 h-8 animate-spin text-blue-600 dark:text-blue-400" />
           </div>
@@ -54,11 +54,11 @@ export default function SkillsPage() {
 
   return (
     <PageContainer>
-      <div className="max-w-6xl w-full mx-auto px-4 py-12">
+      <div className="page-content">
         <h1 className="text-3xl font-bold mb-8">Skills & Technologies</h1>
 
         {/* Category Filter */}
-        <div className="mb-8">
+        <div className="section-spacing">
           <div className="flex items-center gap-2 mb-2">
             <IconFilter className="h-4 w-4" />
             <span className="text-sm font-medium">Filter by category:</span>

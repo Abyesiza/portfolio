@@ -1,5 +1,5 @@
 import { AboutComponent } from "@/components/about";
-import { Header } from "@/components/header";
+import { PageContainer } from "@/components/ui/page-container";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,9 +9,8 @@ export const metadata: Metadata = {
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-neutral-50 dark:from-neutral-950 dark:to-neutral-900">
-       <Header/>
-       <AboutComponent/>
-    </div>
+    <PageContainer contentOverflow={true}>
+      <AboutComponent/>
+    </PageContainer>
   );
 }
